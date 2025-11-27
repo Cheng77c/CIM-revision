@@ -19,7 +19,7 @@
 \RequirePackage{subfigure}	%插入图宏包
 \RequirePackage{caption} %图表标题设置宏包 by gzang 230220
 \RequirePackage[list=off]{bicaption} %图表标题设置宏包 by gzang 230220
-\RequirePackage[numbers,sort&compress]{natbib}	%参考文献宏包包括cite宏包，所以不需要cite宏包
+\RequirePackage[super,square,numbers,sort&compress]{natbib}	%参考文献宏包包括cite宏包，所以不需要cite宏包
 \RequirePackage{pdfpages}	%插入pdf页面
 \RequirePackage{algorithm}	%插入算法描述
 \RequirePackage{setspace}	%设置局部行距宏包(调目录用到--gzzang)
@@ -207,16 +207,16 @@ pdfstartview=FitH]{hyperref}
 %修改新章首页的页眉页脚为与所有正文页的一样(main格式)
 \fancypagestyle{plain}{
 	\fancyhf{} %清空所有页眉页脚（ctexbook默认的页眉页脚格式）
-	\fancyhead[CO]{\zihao{5}\leftmark} %奇数页
-	\fancyhead[CE]{\zihao{5}\bjtu@label@firstcover@school\bjtu@label@firstcover@statement}
+	\fancyhead[LO,LE]{\zihao{5}\bjtu@label@firstcover@school\bjtu@label@firstcover@statement} %左侧
+	\fancyhead[RO,RE]{\zihao{5}\leftmark} %右侧章节名
 	\fancyfoot[C]{\zihao{-5}\thepage}
 	\renewcommand{\headrulewidth}{0.5pt} % 页眉横线加粗到0.5 by gzang 201005
 }
 % 自定义所有正文页(非新章首页)页眉页脚
 \fancypagestyle{main}{
 	\fancyhf{} %清空所有页眉页脚（ctexbook默认的页眉页脚格式）
-	\fancyhead[CO]{\zihao{5}\leftmark} %奇数页
-	\fancyhead[CE]{\zihao{5}\bjtu@label@firstcover@school\bjtu@label@firstcover@statement}
+	\fancyhead[LO,LE]{\zihao{5}\bjtu@label@firstcover@school\bjtu@label@firstcover@statement} %左侧
+	\fancyhead[RO,RE]{\zihao{5}\leftmark} %右侧章节名
 	\fancyfoot[C]{\zihao{-5}\thepage}
 	\renewcommand{\headrulewidth}{0.5pt} % 页眉横线加粗到0.5 by gzang 201005
 }
