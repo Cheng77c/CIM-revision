@@ -140,6 +140,7 @@ pdfstartview=FitH]{hyperref}
 \ctexset{chapter={
 		name={,},	%将章序号去掉“第××章”
 		number = \arabic{chapter},	%将章序号改为阿拉伯数字
+		aftername={\hskip 2em}, % 序号与题名之间空两格
 		fixskip = true, % fixskip可以去除多余的间距，否则上面有空隙--gzzang_210411
 		nameformat={\zihao{3}\mdseries\heiti}, % 默认是粗体，\mdseries调整为正常--gzzang_210411
 		titleformat={\zihao{3}\mdseries\heiti},
@@ -150,6 +151,7 @@ pdfstartview=FitH]{hyperref}
 
 \ctexset{section={
 		format={\zihao{-3}\heiti},
+		aftername={\hskip 2em},
 		beforeskip={24pt},
 		afterskip={18pt},
 	}
@@ -157,6 +159,7 @@ pdfstartview=FitH]{hyperref}
 % Title Settings at the subection Level
 \ctexset{subsection={
 		format={\zihao{4}\heiti},
+		aftername={\hskip 2em},
 		indent={0\ccwd},
 		beforeskip={24pt},
 		afterskip={18pt},
@@ -165,6 +168,7 @@ pdfstartview=FitH]{hyperref}
 % Title Settings at the subsubection Level
 \ctexset{subsubsection={
 		format={\zihao{-4}\heiti},
+		aftername={\hskip 2em},
 		indent={0\ccwd},
 		beforeskip={12pt},
 		afterskip={9pt},
@@ -440,7 +444,13 @@ pdfstartview=FitH]{hyperref}
 %==============================================
 % 学位委员会
 %==============================================
-\newcommand\genrows[2]{\@for\one:=#1\do{\expandafter#2\expandafter\genonerowbylist\expandafter{\one}}}
+\newcommand\genrows[2]{%
+  \@for\one:=#1\do{%
+    #2%
+    \protected@edef\bjtu@temp{\noexpand\genonerowbylist{\one}}%
+    \bjtu@temp
+  }%
+}
 \NewDocumentCommand{\genonerowbylist}{ >{\SplitArgument{2}{;}} m}{\genonerow #1}
 \NewDocumentCommand{\genonerow}{mmm}{ &\genvspace #1 \genvspacedown &\genvspace #2\genvspacedown &\genvspace #3\genvspacedown \\\hline}
 \newcommand\genchairmanrow[1]{\genvspace \bjtu@label@chairman \genvspacedown\expandafter\genonerowbylist\expandafter{#1}}
@@ -585,6 +595,7 @@ pdfstartview=FitH]{hyperref}
 
 \newcounter{resumec} %自定义新计数器
 \newenvironment{ResumeList}{%%%%%定义新环境
+	\setlength{\baselineskip}{16pt}
 	\begin{list}{\chinese{resumec}、} %%标签格式
 		{ %列表格式设置
 			\usecounter{resumec}
