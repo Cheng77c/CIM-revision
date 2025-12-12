@@ -24,50 +24,46 @@
 
 该架构强调“多域协同”和“迭代自校正”：在高确定性区域，机理模型主导系统运行；而在高不确定性场景下，数据与知识则驱动系统的补偿与调整。这一框架不仅是技术层面的深度整合，也体现了系统协同运作的哲学理念，形成了一个完整的从机制到模型的反馈闭环。
 
-（1）机理齿轮：承载物理、工程与社会等领域的先验定律与第一性原理（如浅水方程、结构力学、行为经济学），确保模型的可解释性与外推稳健性，是系统认知的物理根基。
-
-（2）数据齿轮：负责接入与处理多源异构的实时与历史数据流（如IoT传感、遥感影像、社交数据），为系统提供持续的态势感知与经验证据，是系统演化的现实感知源。
-
-（3）知识齿轮：封装专家经验、领域规则、政策法规与逻辑约束（如应急预案、建筑规范、疏散行为规则），为系统注入人类的常识与智慧，是决策合理性与合规性的保障。
-
-（4）模型齿轮：是仿真、分析与优化算法的执行主体（如计算流体动力学模型、多智能体仿真、优化算法），构成数字孪生的计算核心，是各类洞察与策略的生成器。
-
+\begin{itemize}
+\item \textbf{机理齿轮}：承载物理、工程与社会等领域的先验定律与第一性原理（如浅水方程、结构力学、行为经济学），确保模型的可解释性与外推稳健性，是系统认知的物理根基。
+\item \textbf{数据齿轮}：负责接入与处理多源异构的实时与历史数据流（如IoT传感、遥感影像、社交数据），为系统提供持续的态势感知与经验证据，是系统演化的现实感知源。
+\item \textbf{知识齿轮}：封装专家经验、领域规则、政策法规与逻辑约束（如应急预案、建筑规范、疏散行为规则），为系统注入人类的常识与智慧，是决策合理性与合规性的保障。
+\item \textbf{模型齿轮}：是仿真、分析与优化算法的执行主体（如计算流体动力学模型、多智能体仿真、优化算法），构成数字孪生的计算核心，是各类洞察与策略的生成器。
+\end{itemize}
 
 四驱融合齿轮式框架图采用机械齿轮的比喻阐释了四类驱动要素之间的信息耦合关系。每个齿轮既可能作为主动轮也可能作为从动轮，其角色取决于当前的轨道交通风险的不确定性水平——更高可靠性的组件将主导力矩输出。如表~\ref{tab:meshing_interfaces} 所示，汇总了六组齿轮副的啮合功能、数学表达形式及其关键超参数。
 
 \begin{table}[htbp]
 \centering
-\caption{
-    \zihao{5}\songti 六组啮合面的数学接口与可调超参数\\
-    \zihao{5}\rmfamily Mathematical Interfaces of Six Meshing Surfaces and Tunable Hyperparameters
-    }
+\caption{六组啮合面的数学接口与可调超参数}
+\caption*{Table~\thetable~ Mathematical Interfaces of Six Meshing Surfaces and Tunable Hyperparameters}
 \label{tab:meshing_interfaces}
-%\small
-\begin{tabular}{p{3cm} p{3.5cm} p{3cm} p{3cm}}
+\small
+\begin{tabular}{p{2.4cm} p{3.4cm} p{5.2cm} p{2.5cm}}
 \toprule
-齿轮关系 & 啮合功能 & 数学形式 & 关键超参数 \\
-\midrule
-机理 $\rightarrow$ 数据 & 物理方程正则化深度学习 & $\mathcal{L}_{physics} = \lvert f(\theta)-\hat{x} \rvert^{2}$ & 残差权重 $\lambda_{1}$ \\
-数据 $\rightarrow$ 知识 & 数据驱动结果受规则检验 & $\mathcal{L}_{logic} = -\log P(\text{rule}\mid \text{graph})$ & 规则置信度 $\beta$ \\
-知识 $\rightarrow$ 模型 & 语义与几何空间对齐 & $\mathcal{L}_{align} = \lvert Emb_{sem} - Emb_{geo} \rvert_{1}$ & 嵌入维度 $d$ \\
-模型 $\rightarrow$ 机理 & 观测残差反向校准参数 & $\mathcal{L}_{calib} = \lvert y_{sim} - y_{obs} \rvert^{2}_{\Sigma}$ & 协方差 $\Sigma$ \\
-数据 $\rightarrow$ 模型 & 实时同步保持虚实一致 & $\mathcal{L}_{sync} = \lvert x_{digital} - x_{physical} \rvert^{2}$ & 延迟容忍 $T$ \\
-机理 $\rightarrow$ 知识 & 因果链一致性检查 & $\mathcal{L}_{causal} = \Sigma \lvert P_{cause} - P_{effect} \rvert$ & 因果强度 $\gamma$ \\
+齿轮关系 & 啮合功能 & 数学形式 & 关键超参数 \\midrule
+机理 $\rightarrow$ 数据 & 物理方程正则化深度学习 & $\mathcal{L}_{physics}} = \lvert f(\theta)-\hat{x} \rvert^{2}$ & 残差权重 $\lambda_{1}$ \\
+数据 $\rightarrow$ 知识 & 数据驱动结果受规则检验 & $\mathcal{L}_{logic}} = -\log P(\text{rule}\mid \text{graph})$ & 规则置信度 $\beta$ \\
+知识 $\rightarrow$ 模型 & 语义与几何空间对齐 & $\mathcal{L}_{align}} = \lvert Emb_{sem}} - Emb_{geo}} \rvert_{1}$ & 嵌入维度 $d$ \\
+模型 $\rightarrow$ 机理 & 观测残差反向校准参数 & $\mathcal{L}_{calib}} = \lvert y_{sim}} - y_{obs}} \rvert^{2}_{\Sigma}$ & 协方差 $\Sigma$ \\
+数据 $\rightarrow$ 模型 & 实时同步保持虚实一致 & $\mathcal{L}_{sync}} = \lvert x_{digital}} - x_{physical}} \rvert^{2}$ & 延迟容忍 $T$ \\
+机理 $\rightarrow$ 知识 & 因果链一致性检查 & $\mathcal{L}_{causal}} = \Sigma \lvert P_{cause}} - P_{effect}} \rvert$ & 因果强度 $\gamma$ \\
 \bottomrule
 \end{tabular}
+\normalsize
 \end{table}
 
 \subsection{动力机制与协同优化}
 
 四个齿轮通过三类核心的“力矩传递”机制实现深度啮合与协同工作，这是 MDKM 框架的灵魂所在：
 
-（1）物理力矩（机理 $\rightarrow$ 数据 / 模型）：
+\textbf{1. 物理力矩（机理 $\rightarrow$ 数据 / 模型）：}
 机理模型提供系统运行的物理规律约束，是保证模型可解释性与稳健性的基础。在样本稀缺或噪声场景下，通过物理信息神经网络等方式，将控制方程、本构关系（如守恒律）嵌入数据驱动模型的损失函数中作为正则项，构建“数据项+物理残差”联合优化。这在数据稀缺或噪声环境下保障了解的物理合理性，在保证精度的同时提升外推与可解释性。
 
-（2）逻辑力矩（知识 $\rightarrow$ 数据 / 模型）：
+\textbf{2. 逻辑力矩（知识 $\rightarrow$ 数据 / 模型）：}
 知识层承载专家经验与逻辑规则，其关键作用在于对数据驱动过程进行语义约束与逻辑校验。将领域知识编码为“if--then”类逻辑规则（如知识图谱的三元组）或政策约束，转化为损失函数或推理规则注入训练与推理。这种机制在模型训练与决策过程中施加语义约束，使模型在未见场景下仍保持安全与业务一致性，确保结果符合业务逻辑与安全规范。
 
-（3）反馈力矩（模型 $\rightarrow$ 机理 / 数据）：
+\textbf{3. 反馈力矩（模型 $\rightarrow$ 机理 / 数据）：}
 模型层通过数字孪生体的实时计算，利用模型输出与实时观测数据之间的残差，通过数据同化、参数反演（如梯度校准、EnKF）等技术，反向校准机理模型中的关键参数（如糙率系数、材料性能退化）。这一机制实现参数在线校准与模型自演化，使模型随观测实时贴合物理状态，避免因环境漂移导致的偏差。
 
 多力矩联合求解可抽象为“物理—数据—逻辑—同步”多目标优化，由自适应权重调度不同信息源的可信度。同时引入不确定性闸门，对输入流进行置信筛选，阻断误差级联，保证在复杂环境下的稳健决策。
@@ -119,58 +115,32 @@
 
 \begin{table}[htbp]
 \centering
-\caption{\zihao{5}\songti 五维与四视角映射矩阵\\
-        \zihao{5}\rmfamily Mapping Matrix Between the Five-Dimensional System and the Four-Perspective System}
+\caption{五维与四视角映射矩阵}
+\caption*{Table~\thetable~ Mapping Matrix Between the Five-Dimensional System and the Four-Perspective System}
 \label{tab:five_dim_four_view}
-
-\renewcommand{\arraystretch}{1.3}
-
-\begin{tabular}{p{1.5cm} p{2.75cm} p{2.75cm} p{2.75cm} p{2.75cm}}
+\small
+\begin{tabular}{p{2.0cm} p{3.0cm} p{3.0cm} p{3.0cm} p{3.0cm}}
 \toprule
-\textbf{维度 / 视角} & \textbf{场景化} & \textbf{参数化} & \textbf{互动化} & \textbf{智能化} \\
-\midrule
-物质维
-& 建筑与设施场景
-& BIM 参数绑定
-& IoT 感知反馈
-& 智能结构监测 \\
-
-空间维
-& 城市空间场景
-& GIS 空间参数
-& 空间交互控制
-& 空间动态优化 \\
-
-性能维
-& 能源 / 交通运行场景
-& IoT 传感参数
-& 实时监控反馈
-& 预测与调度学习 \\
-
-文化维
-& 文化遗产保护场景
-& 文化属性参数化
-& 群众参与与展示
-& 舆情 / 行为数据分析 \\
-
-时间维
-& 生命周期建模
-& 时间参数
-& 历史与实时融合
-& 演化规律学习 \\
+维度 / 视角 & 场景化 & 参数化 & 互动化 & 智能化 \\midrule
+物质维 & 建筑与设施场景 & BIM 参数绑定 & IoT 感知反馈 & 智能结构监测 \\
+空间维 & 城市空间场景 & GIS 空间参数 & 空间交互控制 & 空间动态优化 \\
+性能维 & 能源 / 交通运行场景 & IoT 传感参数 & 实时监控反馈 & 预测与调度学习 \\
+文化维 & 文化遗产保护场景 & 文化属性参数化 & 群众参与与展示 & 舆情 / 行为数据分析 \\
+时间维 & 生命周期建模 & 时间参数 & 历史与实时融合 & 演化规律学习 \\
 \bottomrule
 \end{tabular}
+\normalsize
 \end{table}
 
 \begin{table}[htbp]
 \centering
-\caption{\zihao{5}\songti 五维与齿轮映射矩阵\\
-        \zihao{5}\rmfamily Five-Dimension-to-Gear Mapping Matrix}
+\caption{五维与齿轮映射矩阵}
+\caption*{Table~\thetable~ Five-Dimension-to-Gear Mapping Matrix}
 \label{tab:five_dim_gear}
-\begin{tabular}{p{3cm} p{3.5cm} p{3cm} p{3cm}}
+\small
+\begin{tabular}{p{2.0cm} p{4.0cm} p{3.5cm} p{3.5cm}}
 \toprule
-维度 & 角色（语义职责） & 数据锚点 & 支撑齿轮 \\
-\midrule
+维度 & 角色（语义职责） & 数据锚点 & 支撑齿轮 \\midrule
 物质维 & 几何 + 材料 & BIM / LiDAR & 机理 \\
 空间维 & 拓扑 + 场域 & GIS 语义图 & 机理 + 模型 \\
 性能维 & 实时状态 & IoT 时序 & 数据 \\
@@ -178,6 +148,7 @@
 时间维 & 生命周期 & 版本 + 事件 & 全部（横贯轴） \\
 \bottomrule
 \end{tabular}
+\normalsize
 \end{table}
 
 \subsection{场景化：任务驱动}
@@ -200,15 +171,12 @@
 
 \subsection{数据层级架构}
 CIM 数据模型的核心在于构建一个可扩展、可演化且具备语义一致性的多层数据体系。如图~\ref{fig:cim_data_model}所示，其层次结构遵循从结构到语义、从数据到知识的递进逻辑，通常划分为四个主要层次：
-
-（1）几何层：关注对象的空间形态与拓扑结构，定义城市对象的几何要素（点、线、面、体）及其空间关系，支撑三维场景建模与物理仿真。
-
-（2）属性层：负责对象的物理、环境、性能及社会属性描述，连接几何实体与语义推理。支持参数化管理与动态更新，使模型在动态环境中保持准确性。
-
-（3）语义层：通过对象间的逻辑关系、约束规则和行为模式建立语义网络，刻画对象—关系—事件的多维交互逻辑，实现从结构化数据到知识表达的转化。
-
-（4）知识层：通过知识图谱、本体模型及规则库组织城市运行的高阶认知逻辑，实现智能推理与决策支持。
-
+\begin{itemize}
+\item \textbf{几何层}：关注对象的空间形态与拓扑结构，定义城市对象的几何要素（点、线、面、体）及其空间关系，支撑三维场景建模与物理仿真。
+\item \textbf{属性层}：负责对象的物理、环境、性能及社会属性描述，连接几何实体与语义推理。支持参数化管理与动态更新，使模型在动态环境中保持准确性。
+\item \textbf{语义层}：通过对象间的逻辑关系、约束规则和行为模式建立语义网络，刻画对象—关系—事件的多维交互逻辑，实现从结构化数据到知识表达的转化。
+\item \textbf{知识层}：通过知识图谱、本体模型及规则库组织城市运行的高阶认知逻辑，实现智能推理与决策支持。
+\end{itemize}
 
 \begin{figure}[htbp]
 \centering
@@ -221,12 +189,16 @@ CIM 数据模型的核心在于构建一个可扩展、可演化且具备语义�
 \subsection{对象-关系-事件动态模型}
 O-R-E模型通过将静态实体与动态过程解耦又耦合的方式，实现了对MDKM四驱齿轮的底层承载：
 
-（1）对象（Object）—— 数据与模型齿轮的载体：对象是城市实体的数字化映射，形式化定义为 $O_i = (G_i, A_i, S_i, T_i)$，其中包含几何($G$)、属性($A$)、状态($S$)与时间索引($T$)。在MDKM架构中，\textbf{数据齿轮}负责实时更新对象的属性（如水位传感器更新 $A_{level}$），而\textbf{模型齿轮}则基于对象的状态进行仿真运算（如基于 $G_{building}$ 计算阻水效应）。对象实现了“数据被动记录”与“模型主动计算”的统一封装。
+\begin{itemize}
+\item \textbf{对象（Object）—— 数据与模型齿轮的载体}：
+对象是城市实体的数字化映射，形式化定义为 $O_i = (G_i, A_i, S_i, T_i)$，其中包含几何($G$)、属性($A$)、状态($S$)与时间索引($T$)。在MDKM架构中，\textbf{数据齿轮}负责实时更新对象的属性（如水位传感器更新 $A_{level}$），而\textbf{模型齿轮}则基于对象的状态进行仿真运算（如基于 $G_{building}$ 计算阻水效应）。对象实现了“数据被动记录”与“模型主动计算”的统一封装。
 
-（2）关系（Relation）—— 知识与机理齿轮的纽带：关系定义了对象间的语义拓扑与逻辑约束，表示为 $R = (O_i, O_j, \rho_{ij}, w_{ij})$。它承载了\textbf{机理齿轮}的物理连接（如“上游网格流入下游网格”的水力学关系）和\textbf{知识齿轮}的规则约束（如“水深>0.3m $\rightarrow$ 道路不可通行”的业务规则）。通过关系的定义，独立的城市部件被编织成具备因果逻辑的语义网络。
+\item \textbf{关系（Relation）—— 知识与机理齿轮的纽带}：
+关系定义了对象间的语义拓扑与逻辑约束，表示为 $R = (O_i, O_j, \rho_{ij}, w_{ij})$。它承载了\textbf{机理齿轮}的物理连接（如“上游网格流入下游网格”的水力学关系）和\textbf{知识齿轮}的规则约束（如“水深>0.3m $\rightarrow$ 道路不可通行”的业务规则）。通过关系的定义，独立的城市部件被编织成具备因果逻辑的语义网络。
 
-（3）事件（Event）—— 驱动系统演化的动力源：事件是系统状态跃迁的触发器，定义为 $E_k = (t_k, \Omega_{target}, \Delta S, \Phi_{logic})$，其中 $\Omega$ 为受影响对象集，$\Phi$ 为处理逻辑。事件机制通过时间轴驱动MDKM齿轮转动：外部事件（如暴雨预警）触发机理模型解算，内部事件（如节点失效）触发知识推理与状态更新，从而实现从“静态快照”到“动态过程”的演进。
-
+\item \textbf{事件（Event）—— 驱动系统演化的动力源}：
+事件是系统状态跃迁的触发器，定义为 $E_k = (t_k, \Omega_{target}, \Delta S, \Phi_{logic})$，其中 $\Omega$ 为受影响对象集，$\Phi$ 为处理逻辑。事件机制通过时间轴驱动MDKM齿轮转动：外部事件（如暴雨预警）触发机理模型解算，内部事件（如节点失效）触发知识推理与状态更新，从而实现从“静态快照”到“动态过程”的演进。
+\end{itemize}
 
 \subsection{洪涝场景下的O-R-E实例}
 
@@ -234,12 +206,11 @@ O-R-E模型通过将静态实体与动态过程解耦又耦合的方式，实现
 
 \begin{table}[htbp]
 \centering
-\caption{\zihao{5}\songti 洪涝场景下的O-R-E实例定义 \\
-          \zihao{5}\rmfamily O-R-E Instances Definition and Application Mapping in Flood Scenarios
-        }
+\caption{洪涝场景下的O-R-E实例定义}
+\caption*{Table~\thetable~ O-R-E Instances Definition and Application Mapping in Flood Scenarios}
 \label{tab:ore_instances}
-
-\begin{tabular}{p{3cm} p{3.5cm} p{3cm} p{3cm}}
+\small
+\begin{tabular}{p{2cm} p{3.5cm} p{4cm} p{4cm}}
 \toprule
 \textbf{应用环节} & \textbf{核心对象 ($O$)} & \textbf{关键关系 ($R$) / 语义约束} & \textbf{驱动事件 ($E$) 与响应} \\
 \midrule
@@ -259,6 +230,7 @@ O-R-E模型通过将静态实体与动态过程解耦又耦合的方式，实现
 \textbf{冲击峰值事件} ($E_{impact}$) \newline 触发：流速$u$与水深$h$组合产生最大动水压力。 \newline 响应：计算构件应力状态，更新损伤度$D$，并可视化损伤等级。 \\
 \bottomrule
 \end{tabular}
+\normalsize
 \end{table}
 
 通过上述实例化映射，O-R-E数据模型有效地将第三章的连续流场数据、第四章的离散网络数据以及第五章的精细构件属性统一在同一个语义框架下。这种一致性设计确保了上一阶段的输出（如网格水深）能够无损地转化为下一阶段的输入（如路段阻断判定条件），从而在底层数据逻辑上保障了城市洪涝灾害协同防控全流程的连贯性与闭环。
