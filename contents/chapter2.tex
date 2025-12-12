@@ -46,8 +46,10 @@
 
 \begin{table}[htbp]
   \centering
-  \caption{水动力模型主要参数设定}
-  \caption*{Table~\thetable~ Main Parameter Settings of the Hydrodynamic Model}
+  \caption{
+      \zihao{5}\songti 水动力模型主要参数设定\\
+      \zihao{5}\rmfamily Main Parameter Settings of the Hydrodynamic Model
+  }
   \label{tab:hydro_params}
   \begin{tabular}{@{}p{3.5cm}p{3cm}p{6cm}@{}}
     \toprule
@@ -164,18 +166,20 @@ s(t)=
 
 二维浅水方程建立在静水压力分布($\partial p/\partial z = -\rho g$)和流速沿垂向均匀分布的假设之上，适用于水平尺度远大于垂直尺度的开阔水域模拟。然而，在城市洪涝演进过程中，特别是洪水冲击建筑物、流经街道峡谷及下凹式立交桥时，流动表现出强烈的非静水特性和三维湍流结构。三维RANS方程通过引入垂向动量方程和全张量湍流封闭，能够捕捉以下关键物理过程：
 
-\begin{itemize}
-    \item \textbf{非静水压力效应}：在建筑物迎水面，流体动能转化为压力势能，导致局部压力显著高于静水压力。三维模型直接求解总压力$p = p_{\mathrm{stat}} + p_{\mathrm{dyn}}$，其中$p_{\mathrm{dyn}}$为由垂向加速度引起的动压力分量，这对于评估结构冲击载荷至关重要。
-    \item \textbf{垂向流速分量}：二维模型忽略垂向速度($w \approx 0$)，无法描述洪水翻越防洪墙或跌入地下空间时的射流与跌水现象。三维模型保留完整的速度矢量$\mathbf{u}=(u,v,w)$，能够模拟最大可达$3.2\,\mathrm{m/s}$的瞬时垂向流速，这对于分析局部冲刷和行进阻力具有决定性作用。
-    \item \textbf{三维湍流结构}：城市冠层内的尾流脱落和马蹄涡系统是三维现象。通过$k$-$\varepsilon$模型求解湍动能$k$和耗散率$\varepsilon$的输运方程，三维模型能够准确预测建筑物背水侧的低压区和涡旋回流，而这往往是漂浮物堆积和人员受困的高风险区。
-\end{itemize}
+（1）非静水压力效应：在建筑物迎水面，流体动能转化为压力势能，导致局部压力显著高于静水压力。三维模型直接求解总压力$p = p_{\mathrm{stat}} + p_{\mathrm{dyn}}$，其中$p_{\mathrm{dyn}}$为由垂向加速度引起的动压力分量，这对于评估结构冲击载荷至关重要；
+
+（2）垂向流速分量：二维模型忽略垂向速度($w \approx 0$)，无法描述洪水翻越防洪墙或跌入地下空间时的射流与跌水现象。三维模型保留完整的速度矢量$\mathbf{u}=(u,v,w)$，能够模拟最大可达$3.2\,\mathrm{m/s}$的瞬时垂向流速，这对于分析局部冲刷和行进阻力具有决定性作用；
+
+（3）三维湍流结构：城市冠层内的尾流脱落和马蹄涡系统是三维现象。通过$k$-$\varepsilon$模型求解湍动能$k$和耗散率$\varepsilon$的输运方程，三维模型能够准确预测建筑物背水侧的低压区和涡旋回流，而这往往是漂浮物堆积和人员受困的高风险区。
 
 表~\ref{tab:model_comparison_summary}总结了两种模型的关键特性差异及其对风险评估的影响。
 
 \begin{table}[htbp]
   \centering
-  \caption{二维与三维水动力模型特性对比及适用性分析}
-  \caption*{Table~\thetable~ Comparison of Characteristics and Applicability between 2D and 3D Hydrodynamic Models}
+  \caption{
+      \zihao{5}\songti 二维与三维水动力模型特性对比及适用性分析\\
+      \zihao{5}\rmfamily Comparison of Characteristics and Applicability between 2D and 3D Hydrodynamic Models
+  }
   \label{tab:model_comparison_summary}
   \begin{tabular}{p{3cm}p{5cm}p{5cm}}
     \toprule
@@ -192,11 +196,12 @@ s(t)=
 \end{table}
 
 作为风险评估系统的核心动力引擎，三维水动力模型的输出不仅是可视化的结果，更是后续模块的关键输入参数。具体的数据接口定义如下：
-\begin{enumerate}
-    \item \textbf{网格级危险度矩阵}：将每一时刻$t$、每一网格$i$处的计算结果映射为向量$\mathbf{H}_i(t) = [h_i(t), \|\mathbf{u}_i(t)\|, p_i(t)]$，直接输入至第四章构建的脆弱性函数$V = f(\mathbf{H}, \mathbf{E})$中，用于计算动态风险指数。
-    \item \textbf{疏散路径阻力场}：利用三维流速场$\mathbf{u}(x,y,z)$，特别是底层的流速分布，结合人体稳定性准则(Human Stability Criteria)，生成动态的不可通行区域(Blocked Areas)和高阻力区域(High Resistance Areas)，为第五章的疏散仿真提供时变的环境势场数据。
-    \item \textbf{结构损伤载荷}：提取建筑物表面的总压力积分$\int p \, dS$，作为构件级损伤评估的荷载输入，判断门窗破坏和墙体受损的可能性。
-\end{enumerate}
+
+（1）网格级危险度矩阵：将每一时刻$t$、每一网格$i$处的计算结果映射为向量$\mathbf{H}_i(t) = [h_i(t), \|\mathbf{u}_i(t)\|, p_i(t)]$，直接输入至第四章构建的脆弱性函数$V = f(\mathbf{H}, \mathbf{E})$中，用于计算动态风险指数；
+
+（2）疏散路径阻力场：利用三维流速场$\mathbf{u}(x,y,z)$，特别是底层的流速分布，结合人体稳定性准则(Human Stability Criteria)，生成动态的不可通行区域(Blocked Areas)和高阻力区域(High Resistance Areas)，为第五章的疏散仿真提供时变的环境势场数据；
+
+（3）结构损伤载荷：提取建筑物表面的总压力积分$\int p \, dS$，作为构件级损伤评估的荷载输入，判断门窗破坏和墙体受损的可能性。
 
 通过上述接口，本章建立的高精度水动力模型不再是孤立的计算环节，而是贯穿“数据—模拟—评估—应对”全链条的数字化底座，确保了最终风险图和应急预案的科学性与物理一致性。
 
@@ -210,30 +215,34 @@ s(t)=
 城市洪涝脆弱性评估需要综合考虑承灾体的暴露度、敏感性和适应能力等多个维度。基于国际减灾框架和风险评估理论，本研究构建了一个包含物理脆弱性(Physical Vulnerability)、社会脆弱性(Social Vulnerability)和经济脆弱性(Economic Vulnerability)的三维综合评估指标体系，每个维度下设若干指标组和可量化的核心指标。
 
 物理脆弱性主要反映建筑物和基础设施在洪涝灾害作用下的本体抗灾能力和受损程度。该维度评估的核心在于量化物理实体对水力荷载的响应特性，重点关注：
-\begin{itemize}
-  \item 建筑物几何与高程特征：包括建筑高度、建筑平面面积、首层标高等，决定在给定水深条件下的有效淹没程度和受灾规模；
-  \item 结构抗洪性能：建筑结构类型、建筑年代与规范等级等，反映在相同荷载作用下的受损概率差异；
-  \item 地形地貌与空间布局：地面高程及局部坡度、地表粗糙度、街道走向与宽度等，影响水流路径与局部汇流条件；
-  \item 基础设施韧性：排水管网密度与泵站能力等，影响淹没持续时间与排涝能力。
-\end{itemize}
+
+（1）建筑物几何与高程特征：包括建筑高度、建筑平面面积、首层标高等，决定在给定水深条件下的有效淹没程度和受灾规模；
+
+（2）结构抗洪性能：建筑结构类型、建筑年代与规范等级等，反映在相同荷载作用下的受损概率差异；
+
+（3）地形地貌与空间布局：地面高程及局部坡度、地表粗糙度、街道走向与宽度等，影响水流路径与局部汇流条件；
+
+（4）基础设施韧性：排水管网密度与泵站能力等，影响淹没持续时间与排涝能力。
 
 近期针对关键基础设施暴雨脆弱性评估的研究为物理维度的指标设计提供了实证基础\cite{CN_Qiao2023InfraAssessment}。
 
 社会脆弱性反映人口及社会系统在灾害冲击下的暴露程度、敏感性和适应能力。该维度强调“以人为本”的风险评估理念，主要考虑：
-\begin{itemize}
-  \item 人口暴露特征：常住人口密度、昼夜人口变化和高峰时段人口聚集度；
-  \item 人群脆弱性差异：老年人、儿童、残障人士等特殊群体占比；
-  \item 社会经济地位与应急能力：教育水平、收入水平、应急避难设施可达性等，影响获取救援资源的能力与自救能力。
-\end{itemize}
+
+（1）人口暴露特征：常住人口密度、昼夜人口变化和高峰时段人口聚集度；
+
+（2）人群脆弱性差异：老年人、儿童、残障人士等特殊群体占比；
+
+（3）社会经济地位与应急能力：教育水平、收入水平、应急避难设施可达性等，影响获取救援资源的能力与自救能力。
 
 社区级应急物资数字化管理实践印证了人群脆弱性差异在风险评估中的关键作用\cite{CN_Zhao2023Community}。
 
 经济脆弱性评估区域经济系统的资产暴露、潜在经济损失和灾后恢复能力，重点包括：
-\begin{itemize}
-  \item 资产暴露价值与空间分布：建筑物重置价值、室内财产价值与基础设施投资；
-  \item 经济活动集中度与关键节点：商业设施密度、服务业聚集程度、重要基础设施节点；
-  \item 恢复重建能力：保险覆盖率、财政支付能力、建设资源可获得性等。
-\end{itemize}
+
+（1）资产暴露价值与空间分布：建筑物重置价值、室内财产价值与基础设施投资；
+
+（2）经济活动集中度与关键节点：商业设施密度、服务业聚集程度、重要基础设施节点；
+
+（3）恢复重建能力：保险覆盖率、财政支付能力、建设资源可获得性等。
 
 该指标体系设计遵循科学性、系统性、可操作性和地域适应性原则。科学性体现在指标选择基于风险理论和实证研究；系统性体现在多维度覆盖和内在逻辑的一致性；可操作性体现在数据的可获得性和计算方法的可实现性；地域适应性体现在考虑研究区域的特定自然环境和社会经济条件。
 
@@ -244,8 +253,10 @@ s(t)=
 \begin{table}[htbp]
   \centering
   \small
-  \caption{综合脆弱性与暴露度核心指标说明}
-  \caption*{Table~\thetable~ Definition of Core Indicators for Vulnerability and Exposure}
+  \caption{
+      \zihao{5}\songti 综合脆弱性与暴露度核心指标说明\\
+      \zihao{5}\rmfamily Definition of Core Indicators for Vulnerability and Exposure
+  }
   \label{tab:core_indicators}
   \begin{tabular}{p{0.9cm}p{1.2cm}p{2.2cm}p{3.5cm}p{1.0cm}p{3.5cm}}
     \toprule
@@ -298,7 +309,7 @@ z_{i,j}^{(\mathrm{inv})} = 1-\frac{x_{i,j}-x_{j}^{\min}}{x_{j}^{\max}-x_{j}^{\mi
 \label{eq:weights}
 \end{equation}
 
-为保证权重确定的透明性，本研究邀请来自应急管理、城市规划、水利工程等领域的7名专家开展AHP评判，判断矩阵的一致性比率为0.062，满足$CR<0.1$的要求。表~\ref{tab:vulnerability_weights}给出了指标组层权重结果，同时将物理、社会、经济三类脆弱性在综合指数中的权重设置为$\beta_{\mathrm{p}}=0.40$、$\beta_{\mathrm{s}}=0.35$、$\beta_{\mathrm{e}}=0.25$，危险度分项权重取$\alpha_1=0.45$（水深）、$\alpha_2=0.35$（流速）、$\alpha_3=0.20$（持续时间），后续敏感性分析表明该组合可在风险预测准确率与模型稳定性之间取得平衡。
+为保证权重确定的透明性，本研究邀请来自应急管理、城市规划、水利工程等领域的7名专家开展AHP评判，判断矩阵的一致性比率为0.062，满足$CR<0.1$的要求。将物理、社会、经济三类脆弱性在综合指数中的权重设置为$\beta_{\mathrm{p}}=0.40$、$\beta_{\mathrm{s}}=0.35$、$\beta_{\mathrm{e}}=0.25$，危险度分项权重取$\alpha_1=0.45$（水深）、$\alpha_2=0.35$（流速）、$\alpha_3=0.20$（持续时间），后续敏感性分析表明该组合可在风险预测准确率与模型稳定性之间取得平衡。
 
 
 \subsection{综合指标构建与风险计算}
@@ -377,14 +388,17 @@ R_i = H_i\, V_i\, E_i,\quad R_i\in[0,1].
 
 在完成指标归一化与水动力参数提取后，本研究基于式(\ref{eq:vulnerability})--(\ref{eq:risk})构建网格尺度的综合洪涝风险指数，并生成相应的风险热力图。整体流程可概括为以下六个步骤：
 
-\begin{enumerate}
-  \item \textbf{水动力模拟与指标提取}：基于三维RANS控制方程对百年一遇风暴潮情景进行数值模拟，得到随时间变化的水深场$h(\mathbf{x},t)$、速度场$\mathbf{u}(\mathbf{x},t)$与压力场$p(\mathbf{x},t)$。在每个网格单元$i$内提取峰值水深$h_i$、特征流速$U_i$、淹没持续时间$T_i$及水动力压力$P_i$等统计量。
-  \item \textbf{水动力危险度归一化}：对$h_i$、$U_i$和$T_i$进行归一化处理，得到对应的无量纲变量$h_i/h_{\max}$、$U_i/U_{\max}$和$T_i/T_{\max}$，并按式(\ref{eq:hazard})计算网格级危险度指数$H_i$。
-  \item \textbf{脆弱性与暴露度计算}：利用表~\ref{tab:core_indicators}中的核心指标，按式(\ref{eq:subindex})和式(\ref{eq:vulnerability})计算物理、社会、经济三个维度的分项脆弱性指数$V^{(\mathrm{phy})}_i$、$V^{(\mathrm{soc})}_i$、$V^{(\mathrm{eco})}_i$及综合脆弱性$V_i$；同时基于人口密度与资产价值构造暴露度$E_i$。
-  \item \textbf{综合风险指数计算}：将水动力危险度$H_i$、综合脆弱性$V_i$与暴露度$E_i$代入式(\ref{eq:risk})，得到每个网格单元的综合洪涝风险指数$R_i\in[0,1]$。$R_i$越大，表示在给定情景下该单元遭受严重损失的可能性越大。
-  \item \textbf{风险等级划分}：根据式(\ref{eq:grading})中给出的分位数阈值$\{q_{0.2},q_{0.4},q_{0.6},q_{0.8}\}$，将连续变量$R_i$划分为“极低、较低、中等、较高、极高”五个等级，实现从连续风险到离散预警等级的映射。
-  \item \textbf{空间可视化与多尺度聚合}：将风险等级栅格映射为颜色梯度，生成百年一遇风暴潮情景下的综合洪涝风险热力图；同时按社区边界与功能分区对$R_i$进行聚合，得到社区级和设施级风险统计结果，为后续疏散预案和构件加固方案提供空间依据。
-\end{enumerate}
+（1）水动力模拟与指标提取：基于三维RANS控制方程对百年一遇风暴潮情景进行数值模拟，得到随时间变化的水深场$h(\mathbf{x},t)$、速度场$\mathbf{u}(\mathbf{x},t)$与压力场$p(\mathbf{x},t)$。在每个网格单元$i$内提取峰值水深$h_i$、特征流速$U_i$、淹没持续时间$T_i$及水动力压力$P_i$等统计量；
+
+（2）水动力危险度归一化：对$h_i$、$U_i$和$T_i$进行归一化处理，得到对应的无量纲变量$h_i/h_{\max}$、$U_i/U_{\max}$和$T_i/T_{\max}$，并按式(\ref{eq:hazard})计算网格级危险度指数$H_i$；
+
+（3）脆弱性与暴露度计算：利用表~\ref{tab:core_indicators}中的核心指标，按式(\ref{eq:subindex})和式(\ref{eq:vulnerability})计算物理、社会、经济三个维度的分项脆弱性指数$V^{(\mathrm{phy})}_i$、$V^{(\mathrm{soc})}_i$、$V^{(\mathrm{eco})}_i$及综合脆弱性$V_i$；同时基于人口密度与资产价值构造暴露度$E_i$；
+
+（4）综合风险指数计算：将水动力危险度$H_i$、综合脆弱性$V_i$与暴露度$E_i$代入式(\ref{eq:risk})，得到每个网格单元的综合洪涝风险指数$R_i\in[0,1]$。$R_i$越大，表示在给定情景下该单元遭受严重损失的可能性越大；
+
+（5）风险等级划分：根据式(\ref{eq:grading})中给出的分位数阈值$\{q_{0.2},q_{0.4},q_{0.6},q_{0.8}\}$，将连续变量$R_i$划分为“极低、较低、中等、较高、极高”五个等级，实现从连续风险到离散预警等级的映射；
+
+（6）空间可视化与多尺度聚合：将风险等级栅格映射为颜色梯度，生成百年一遇风暴潮情景下的综合洪涝风险热力图；同时按社区边界与功能分区对$R_i$进行聚合，得到社区级和设施级风险统计结果，为后续疏散预案和构件加固方案提供空间依据。
 
 通过上述流程，三维水动力模拟与多维脆弱性指标在网格尺度上实现了统一，得到的风险热力图既保留了高分辨率水动力场的空间细节，又综合考虑了人口与资产暴露，为城市精细化防洪提供了直观的决策支撑。在下一小节中，将对风险热力图及相关图件进行空间分布分析与成因解读。
 
@@ -519,8 +533,10 @@ R_i = H_i\, V_i\, E_i,\quad R_i\in[0,1].
 
 \begin{table}[htbp]
 \centering
-\caption{二维与三维模拟结果的流深、压力和深度平均流速相对误差}
-\caption*{Table~\thetable~ Relative Errors in Flow Depth, Pressure and Depth-Averaged Velocity between 2D and 3D Simulation Results}
+\caption{
+      \zihao{5}\songti 二维与三维模拟结果的流深、压力和深度平均流速相对误差\\
+      \zihao{5}\rmfamily Relative Errors in Flow Depth, Pressure and Depth-Averaged Velocity between 2D and 3D Simulation Results
+}
 \label{tab:error_analysis}
 \begin{tabular}{c@{\hspace{0.5em}}c@{\hspace{0.5em}}c@{\hspace{0.5em}}c@{\hspace{1em}}c@{\hspace{0.5em}}c@{\hspace{0.5em}}c@{\hspace{0.5em}}c}
 \toprule
@@ -558,8 +574,10 @@ P05 & 0.21 & 4258 & 0.17 & P10 & 0.12 & 2796 & 0.24 \\
 
 \begin{table}[htbp]
 \centering
-\caption{基于二维和三维水动力模拟的洪涝危险分析对比}
-\caption*{Table~\thetable~ Comparison of Flood Risk Analysis Based on 2D and 3D Hydrodynamic Simulations}
+\caption{
+      \zihao{5}\songti 基于二维和三维水动力模拟的洪涝危险分析对比\\
+      \zihao{5}\rmfamily Comparison of Flood Risk Analysis Based on 2D and 3D Hydrodynamic Simulations
+}
 \label{tab:flood_analysis}
 \tiny
 \begin{tabular}{p{3.5cm}p{4cm}p{5cm}}
@@ -638,11 +656,12 @@ P05 & 0.21 & 4258 & 0.17 & P10 & 0.12 & 2796 & 0.24 \\
 
 本章围绕复杂城市环境下的洪涝灾害精细化感知与高精度风险评估开展了研究。针对传统二维水动力模型在城市微观尺度适用性不足及多源异构数据融合难的问题，主要工作总结如下：
 
-\begin{enumerate}
-    \item \textbf{构建了基于CIM的高精度三维城市场景建模方法。}通过融合数字航空摄影测量、BIM与GIS技术，解决了传统DEM地形表征粗糙的问题，实现了从宏观地形到微观建筑构件的多尺度空间信息无缝集成，为水动力模拟提供了米级精度的几何底座。
-    \item \textbf{建立了考虑复杂流态特征的三维水动力学模型。}基于RANS方程与$k$-$\varepsilon$湍流模型，突破了二维浅水方程在描述垂向流速与非静水压力分布上的局限，精准捕捉了建筑周边的垂直涡旋结构与冲击压力特征，显著提升了城市局部流场的模拟精度。
-    \item \textbf{提出了水动力机制与多维脆弱性显式耦合的风险评估体系。}构建了涵盖物理、社会、经济维度的综合评价指标，并将其与水深、流速、淹没历时等水动力参数进行网格级映射，生成了兼顾致灾强度与承灾体属性的动态风险热力图。
-    \item \textbf{揭示了沿海城市洪涝风险的空间分异规律。}应用案例分析表明，三维模型能更准确地识别高风险建筑与关键致灾路径，修正了二维模型在建筑淹没判定上的偏差，明确了“滨海高险、内陆条带分布”的风险特征。
-\end{enumerate}
+（1）构建了基于CIM的高精度三维城市场景建模方法。通过融合数字航空摄影测量、BIM与GIS技术，解决了传统DEM地形表征粗糙的问题，实现了从宏观地形到微观建筑构件的多尺度空间信息无缝集成，为水动力模拟提供了米级精度的几何底座；
+
+（2）建立了考虑复杂流态特征的三维水动力学模型。基于RANS方程与$k$-$\varepsilon$湍流模型，突破了二维浅水方程在描述垂向流速与非静水压力分布上的局限，精准捕捉了建筑周边的垂直涡旋结构与冲击压力特征，显著提升了城市局部流场的模拟精度；
+ 
+（3）提出了水动力机制与多维脆弱性显式耦合的风险评估体系。构建了涵盖物理、社会、经济维度的综合评价指标，并将其与水深、流速、淹没历时等水动力参数进行网格级映射，生成了兼顾致灾强度与承灾体属性的动态风险热力图；
+
+（4）揭示了沿海城市洪涝风险的空间分异规律。应用案例分析表明，三维模型能更准确地识别高风险建筑与关键致灾路径，修正了二维模型在建筑淹没判定上的偏差，明确了“滨海高险、内陆条带分布”的风险特征。
 
 本章构建的高精度风险底座，解析了灾害演化的物理驱动机制与空间分布特征，为下一章开展风险驱动的室内外一体化人员疏散路径规划提供了精细化的环境代价场与决策依据。
