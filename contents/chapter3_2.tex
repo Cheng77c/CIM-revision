@@ -59,8 +59,10 @@ MGNM元素与IFC类别的对应关系如表~\ref{tab:mgnm_ifc_mapping}所示。�
 
 \begin{table}[htbp]
 \centering
-\caption{MGNM元素与IFC类别的对应关系}
-\caption*{Table~\thetable~ Correspondence Between MGNM Elements and IFC Categories} 
+\caption{
+    \zihao{5}\songti MGNM元素与IFC类别的对应关系\\
+	\zihao{5}\rmfamily Correspondence Between MGNM Elements and IFC Categories
+} 
 \label{tab:mgnm_ifc_mapping}
 \begin{tabular}{@{}llll@{}}
 \toprule
@@ -129,13 +131,18 @@ IFC元素使用相对坐标系统而非地图坐标系统，因此需要通过If
 （3）生成节点与边并附加属性：将空间质心与开口质心抽象为节点，将房间--门、门--走廊、走廊骨架段、楼梯段、房间/走廊--窗等关系抽象为边，并附加几何与语义属性，形成完整MGNM并转换为GIS地理数据库。
 
 核心伪代码如下，突出MGNM相较传统GNM在“自动化+语义保留”方面的优势：
-\begin{verbatim}
+\begin{lstlisting}[
+    language=Python,
+    caption={IFC 到 MGNM 转换的核心伪代码},
+    label={lst:ifc2mgnm},
+    basicstyle=\zihao{-4}\fontspec{Times New Roman} % 小四 Times New Roman
+]
 for space in IFC.spaces:
     centroid = compute_centroid(space.boundary)
     add_node(type='room', id=space.id,
              geom=centroid, attrs=space.attributes)
 
-for opening in IFC.openings:   # doors & windows
+for opening in IFC.openings:  # doors & windows
     node = add_node(type='door/window',
                     geom=compute_centroid(opening),
                     attrs=opening.attributes)
@@ -150,7 +157,7 @@ for corridor in derived_corridors:
     add_edges_along(skeleton)
 
 export_to_geodatabase(nodes, edges)
-\end{verbatim}
+\end{lstlisting}
 
 图~\ref{fig:building_elements}给出了两个房间的示例：BIM中的房间与门窗被映射为MGNM节点，房间--门、门--走廊等空间关系被映射为边；与传统GNM相比，边长度、楼层、标高、门宽等属性在这一过程中被完整保留，为第4.5节中的容量约束与风险权重提供了必要信息。
 
@@ -326,7 +333,7 @@ E2S策略综合利用OpenStreetMap道路数据与CityGML LOD1建筑模型，实�
 \label{fig:coarse_fine_planning}
 \end{figure}
 
-本研究中的室内外联合路径规划基于Dijkstra算法\cite{Dijkstra1959}，网络图由存储节点对之间邻接关系的邻接矩阵表示。使用邻接矩阵中的成本计算最短路径，这意味着室内和室外节点都存储在2D n×n数组中，我们称之为单尺度路径规划。虽然这种方法有明显的优势，但它必须搜索整个数据集以找到最优结果，这是一个耗时的过程。结合上一章的洪涝风险/危险度栅格与本章的风险感知代价（见下一小节），可在规划阶段主动避开高水深/高流速区域，并在传感数据触发时进行快速重规划；同时可参考室内路径研究如“door-to-door”与LEGO表示及人群导航模型\cite{Liu2011indoor,Yuan2010,Lamarche2004}。 此外，基于虚实融合的应急演练评估为算法参数校准提供了重要依据\cite{CN_Wu2022EvacDrill,CN_Chu2022EvacuationDrill}。
+本研究中的室内外联合路径规划基于Dijkstra算法\cite{Dijkstra1959}，网络图由存储节点对之间邻接关系的邻接矩阵表示，如图~\ref{fig:coarse_fine_planning}所示。使用邻接矩阵中的成本计算最短路径，这意味着室内和室外节点都存储在2D n×n数组中，我们称之为单尺度路径规划。虽然这种方法有明显的优势，但它必须搜索整个数据集以找到最优结果，这是一个耗时的过程。结合上一章的洪涝风险/危险度栅格与本章的风险感知代价（见下一小节），可在规划阶段主动避开高水深/高流速区域，并在传感数据触发时进行快速重规划；同时可参考室内路径研究如“door-to-door”与LEGO表示及人群导航模型\cite{Liu2011indoor,Yuan2010,Lamarche2004}。 此外，基于虚实融合的应急演练评估为算法参数校准提供了重要依据\cite{CN_Wu2022EvacDrill,CN_Chu2022EvacuationDrill}。
 
 统一的边代价函数定义为： 其中的风险项还可结合多主体协同疏散与群体行为建模成果进行动态权重调节\cite{CN_Bai2023AIEvac,CN_Zhou2022CrowdRisk}。
 \begin{equation}
@@ -391,8 +398,10 @@ C_e=
 
 \begin{table}[htbp]
 \centering
-\caption{主要参数与默认取值}
-\caption*{Table~\thetable~ Key Parameters and Default Values}
+\caption{
+    \zihao{5}\songti 主要参数与默认取值\\
+	\zihao{5}\rmfamily Key Parameters and Default Values
+} 
 \label{tab:params}
 \begin{tabular}{@{}lll@{}}\toprule
 参数 & 说明 & 默认值 \\ \midrule
@@ -425,12 +434,14 @@ IFC到MGNM转换原型的实现分为三个步骤。步骤1在xBIM（可扩展�
 	\label{fig:3d_model_mgnm}
 \end{figure}
 
-MGNM通过IFC到MGNM转换从IFC自动生成，并确定MGNM元素的数量。由于建筑有两个楼梯间，模型有10个楼梯区域节点、8个平台区域节点和16个楼梯路径。总共有307个窗户节点；然而，房间到窗户边和走廊到窗户边的总和是310，因为链接可能是一对一和一对多的，例如当窗户同时属于房间和走廊时，或当房间有一个或多个门时。此外，一些房间在其他房间内部，并非所有门都直接连接到走廊。
+如图~\ref{fig:3d_model_mgnm} 所示，MGNM通过IFC到MGNM转换从IFC自动生成，并确定MGNM元素的数量，见表\ref{tab:mgnm_element_count}。由于建筑有两个楼梯间，模型有10个楼梯区域节点、8个平台区域节点和16个楼梯路径。总共有307个窗户节点；然而，房间到窗户边和走廊到窗户边的总和是310，因为链接可能是一对一和一对多的，例如当窗户同时属于房间和走廊时，或当房间有一个或多个门时。此外，一些房间在其他房间内部，并非所有门都直接连接到走廊。
 
 \begin{table}[htbp]
 	\centering
-	\caption{MGNM元素数量}
-	\caption*{Table~\thetable~ Number of MGNM Elements} 
+	\caption{
+    \zihao{5}\songti MGNM元素数量\\
+	\zihao{5}\rmfamily Number of MGNM Elements
+}  
 	\label{tab:mgnm_element_count}
 	\small
 	\begin{tabular}{@{}llll@{}}
@@ -476,9 +487,9 @@ MGNM通过IFC到MGNM转换从IFC自动生成，并确定MGNM元素的数量。�
 	\label{fig:closest_room_analysis}
 \end{figure}
 
-第一阶段定义室内目的地。在这里，我们分析建筑中哪个是最内层的房间（即距离最近出口最远的房间），并应用室内最近入口分析。建筑中所有房间到最近出口的路径都显示出来，表明最内层的房间是416，总移动长度为80.30米；因此，在此模拟中，我们将房间416定义为目的地。
+第一阶段定义室内目的地。在这里，我们分析建筑中哪个是最内层的房间（即距离最近出口最远的房间），并应用室内最近入口分析，如图~\ref{fig:closest_room_analysis} 所示。建筑中所有房间到最近出口的路径都显示出来，表明最内层的房间是416，总移动长度为80.30米；因此，在此模拟中，我们将房间416定义为目的地。
 
-第二阶段通过执行最短路径分析作为3D场景模拟来识别从应急支援点到该房间的最短安全路径。在我们的示例中，救援人员将从入口8进入建筑，通过楼梯行进并穿越建筑。该路径的总长度为1452.12米，其中室内段80.31米、室外段1371.81米；后续章节的精度对比仅针对室内段，以突出MGNM对复杂建筑内部的刻画能力。在此阶段，可以在室外路径代价中叠加上一章洪涝风险栅格以规避高风险路段；在室内侧，窗户/门的高度与属性可从MGNM获得（尺寸、材料、楼层和名称），用于评估紧急通道的可用性与通行能力。
+第二阶段通过执行最短路径分析作为3D场景模拟来识别从应急支援点到该房间的最短安全路径，如图~\ref{fig:fire_response_analysis} 所示。在我们的示例中，救援人员将从入口8进入建筑，通过楼梯行进并穿越建筑。该路径的总长度为1452.12米，其中室内段80.31米、室外段1371.81米；后续章节的精度对比仅针对室内段，以突出MGNM对复杂建筑内部的刻画能力。在此阶段，可以在室外路径代价中叠加上一章洪涝风险栅格以规避高风险路段；在室内侧，窗户/门的高度与属性可从MGNM获得（尺寸、材料、楼层和名称），用于评估紧急通道的可用性与通行能力。
 
 \begin{figure}[htbp]
 	\centering
@@ -496,7 +507,7 @@ MGNM通过IFC到MGNM转换从IFC自动生成，并确定MGNM元素的数量。�
 
 案例2是室内外多站点应用的行人路径规划。场景设定为一名社区志愿者从建筑北侧应急入口进入，需要依次完成“前往一层卫生服务站领取急救包—到三层培训教室报到—转赴西南侧物资库房支援分发”的任务。面向复杂环境的路径引导与人群行为导航亦可参考相关研究\cite{Lamarche2004}。
 
-第一阶段，最近设施分析帮助识别离入口最近的卫生服务站。使用MGNM节点属性筛选全楼17个卫生间及医务功能空间，系统推荐志愿者先到一层北侧卫生服务站领取物资；随后通过东侧主楼梯前往三层培训教室完成签到；最后沿西侧楼梯下行至一层并经西南出口抵达室外物资库房。在洪涝情景下，系统对位于低洼区或积水告警的入口与通道施加高风险代价或封闭，使得路径自动绕避相关路段。案例2表明MGNM模型能够将建筑室内外空间无缝衔接，结合风险约束生成贴合灾情的动态路径结果。本案例的路径由三段室内外混合路径串联完成。
+第一阶段，最近设施分析帮助识别离入口最近的卫生服务站。使用MGNM节点属性筛选全楼17个卫生间及医务功能空间，系统推荐志愿者先到一层北侧卫生服务站领取物资；随后通过东侧主楼梯前往三层培训教室完成签到；最后沿西侧楼梯下行至一层并经西南出口抵达室外物资库房，如图~\ref{fig:pedestrian_planning}(a)–(e) 所示。。在洪涝情景下，系统对位于低洼区或积水告警的入口与通道施加高风险代价或封闭，使得路径自动绕避相关路段。案例2表明MGNM模型能够将建筑室内外空间无缝衔接，结合风险约束生成贴合灾情的动态路径结果。本案例的路径由三段室内外混合路径串联完成。
 
 \begin{figure}[htbp]
 	\centering
@@ -515,12 +526,14 @@ MGNM通过IFC到MGNM转换从IFC自动生成，并确定MGNM元素的数量。�
 
 验证是一个两部分过程：（1）比较传统GNM和建议MGNM之间的室内路径规划结果（室内距离和时间），（2）比较GNM、MGNM和使用30米卷尺测量的实际距离之间的距离。
 
-我们两个案例的测量距离可以基于成人平均步行速度（例如5公里/小时）转换为穿行时间。在案例1中，MGNM和GNM的穿行时间分别为111.63秒和66.93秒，差异为24.4秒；在案例2中，MGNM和GNM的穿行时间分别为237.16秒和150.75秒，差异为86.41秒。
+我们两个案例的测量距离可以基于成人平均步行速度（例如5公里/小时）转换为穿行时间。在案例1中，MGNM和GNM的穿行时间分别为111.63秒和66.93秒，差异为24.4秒；在案例2中，MGNM和GNM的穿行时间分别为237.16秒和150.75秒，差异为86.41秒。其对比结果如表~\ref{tab:network_verification} 所示。
 
 \begin{table}[htbp]
 	\centering
-	\caption{网络分析结果验证}
-	\caption*{Table~\thetable~ Verification of Network Analysis Results}
+	\caption{
+    \zihao{5}\songti 网络分析结果验证\\
+	\zihao{5}\rmfamily Verification of Network Analysis Results
+}  
 	\label{tab:network_verification}
 	\begin{tabular}{@{}lllll@{}}
 		\toprule
@@ -536,7 +549,7 @@ MGNM通过IFC到MGNM转换从IFC自动生成，并确定MGNM元素的数量。�
 
 为了比较MGNM、GNM和参考距离，GNM的相对误差大于32\%，而MGNM的相对误差小于6\%，表明来自BIM的MGNM比传统GNM更可靠。
 
-案例1和2中室内GNM和MGNM的可视化显示，MGNM的主要改进是垂直连接。此外，通过适当的门穿越内部房间的能力是另一个明显的改进。我们的总结显示，MGNM和GNM之间的差异既存在于水平组件也存在于垂直组件中，表明垂直误差大于水平误差。
+案例1和2中室内GNM和MGNM的可视化显示（分别见图~\ref{fig:gnm_mgnm_case1} 和图~\ref{fig:gnm_mgnm_case2}），MGNM的主要改进是垂直连接。此外，通过适当的门穿越内部房间的能力是另一个明显的改进。我们的总结显示，MGNM和GNM之间的差异既存在于水平组件也存在于垂直组件中，表明垂直误差大于水平误差。
 
 \begin{figure}[htbp]
 	\centering
@@ -556,8 +569,10 @@ MGNM通过IFC到MGNM转换从IFC自动生成，并确定MGNM元素的数量。�
 
 \begin{table}[htbp]
 	\centering
-	\caption{水平和垂直部分的网络分析结果验证}
-	\caption*{Table~\thetable~ Verification of Network Analysis Results for Horizontal and Vertical Components}
+	\caption{
+    \zihao{5}\songti 水平和垂直部分的网络分析结果验证\\
+	\zihao{5}\rmfamily Verification of Network Analysis Results for Horizontal and Vertical Components
+}  
 	\label{tab:horizontal_vertical_verification}
 	\begin{tabular}{@{}lllllll@{}}
 		\toprule
@@ -574,16 +589,18 @@ MGNM通过IFC到MGNM转换从IFC自动生成，并确定MGNM元素的数量。�
 	\end{tabular}
 \end{table}
 
-上述案例研究表明，就垂直或水平距离而言，来自BIM的MGNM路径都更接近真实距离。在案例2中，MGNM垂直部分的相对误差大于案例1，因为案例2使用了建筑的两个楼梯间，这导致了累积误差。相比之下，案例2表明东侧楼梯的长度为37.14米，西侧楼梯的长度为32.31米。然而，在GNM中，这两个楼梯的长度相同；这进一步表明MGNM更准确地反映了建筑的楼梯几何形状。
+如表~\ref{tab:horizontal_vertical_verification} 所示，上述案例研究表明，就垂直或水平距离而言，来自BIM的MGNM路径都更接近真实距离。在案例2中，MGNM垂直部分的相对误差大于案例1，因为案例2使用了建筑的两个楼梯间，这导致了累积误差。相比之下，案例2表明东侧楼梯的长度为37.14米，西侧楼梯的长度为32.31米。然而，在GNM中，这两个楼梯的长度相同；这进一步表明MGNM更准确地反映了建筑的楼梯几何形状。
 
 \subsubsection{计算效率分析}
 
-室内外联合路径规划案例表明，室内路径比室外路径短，但室内路径包含的节点比室外路径多。这意味着室内网络（即MGNM）中的高密度室内实体导致邻接矩阵的快速扩展；邻接矩阵的大小在增加，计算时间也在增加，这增加了处理大型邻接矩阵时计算最短路径的时间。
+室内外联合路径规划案例表明，室内路径比室外路径短，但室内路径包含的节点比室外路径多。这意味着室内网络（即MGNM）中的高密度室内实体导致邻接矩阵的快速扩展；邻接矩阵的大小在增加，计算时间也在增加，这增加了处理大型邻接矩阵时计算最短路径的时间。两个典型案例中室内外路径的长度及通过节点数统计见表~\ref{tab:route_length_nodes}。
 
 \begin{table}[htbp]
 	\centering
-	\caption{两个案例中的路径长度和通过节点}
-	\caption*{Table~\thetable~ Path Lengths and Passing Nodes in the Two Cases}
+	\caption{
+    \zihao{5}\songti 两个案例中的路径长度和通过节点\\
+	\zihao{5}\rmfamily Path Lengths and Passing Nodes in the Two Cases
+}  
 	\label{tab:route_length_nodes}
 	\begin{tabular}{@{}lllll@{}}
 		\toprule
@@ -597,14 +614,16 @@ MGNM通过IFC到MGNM转换从IFC自动生成，并确定MGNM元素的数量。�
 	\end{tabular}
 \end{table}
 
-粗细结合方法可以是路径规划的有效方式。室内和室外邻接矩阵的大小分别为4082×4082和5016×5016，单尺度和多尺度案例之间的计算时间不同。粗细结合方法明显减少了路径规划中的计算工作。进一步分析表明，该方法在“先粗后细”的搜索策略下，将城市级图搜索压缩至百级节点，再在目标建筑内部展开全细粒度搜索，使得总运行时间呈线性增长；而单尺度方法需要在一次搜索中同时处理两类节点，导致运行时间接近指数增长。
+粗细结合方法可以是路径规划的有效方式，两种方法在两个案例中的总体计算时间对比如表~\ref{tab:method_comparison} 所示。室内和室外邻接矩阵的大小分别为4082×4082和5016×5016，单尺度和多尺度案例之间的计算时间不同。粗细结合方法明显减少了路径规划中的计算工作。进一步分析表明，该方法在“先粗后细”的搜索策略下，将城市级图搜索压缩至百级节点，再在目标建筑内部展开全细粒度搜索，使得总运行时间呈线性增长；而单尺度方法需要在一次搜索中同时处理两类节点，导致运行时间接近指数增长。
 
 以案例1为例，粗尺度阶段仅在18个候选接入节点之间搜寻最优外部路径，平均耗时3.57秒；细尺度阶段在室内网络上展开的Dijkstra搜索耗时4.98秒，总计8.55秒。相比之下，单尺度方法需在保留的4000余节点上执行一次全图搜索，构建优先队列和松弛操作均大幅增加，最终耗时22.94秒。案例2因涉及多楼层、多次换乘，粗细结合方法的优势更为明显：粗尺度选择“北入口—西南出口—物资库房”主通道时耗时7.42秒，室内阶段虽然涉及260个节点，但依托分块邻接表仍可在14.46秒内完成；单尺度方法则需67.79秒才能得到同等质量的路径。
 
 \begin{table}[htbp]
 	\centering
-	\caption{两个案例中不同方法的比较}
-	\caption*{Table~\thetable~ Comparison of Different Methods in the Two Cases}
+	\caption{
+    \zihao{5}\songti 两个案例中不同方法的比较\\
+	\zihao{5}\rmfamily Comparison of Different Methods in the Two Cases
+}  
 	\label{tab:method_comparison}
 	\begin{tabular}{@{}lll@{}}
 		\toprule
@@ -619,7 +638,7 @@ MGNM通过IFC到MGNM转换从IFC自动生成，并确定MGNM元素的数量。�
 	\end{tabular}
 \end{table}
 
-因为计算时间与过渡点的数量相关，使用不同数量的过渡点来比较这两种方法。当过渡点数量为2时，单尺度计算时间为22.94秒，但粗细结合方法为3.57秒（室内）和5.38秒（室外）。对于每个额外的过渡点，随着单尺度计算中过渡点数量的增加，计算时间增加。粗细结合方法比单尺度方法更有效，因为它使用LOD1建筑模型来获得相应的室内矩阵。此外，粗细结合和单尺度方法之间的计算比率约为1:4（48.18:204.30），意味着粗细结合方法只需要单尺度方法所需路径规划计算时间的25\%。
+因为计算时间与过渡点的数量相关，使用不同数量的过渡点来比较这两种方法，不同过渡点数量下两种方法的计算时间变化如图~\ref{fig:computation_times} 所示。。当过渡点数量为2时，单尺度计算时间为22.94秒，但粗细结合方法为3.57秒（室内）和5.38秒（室外）。对于每个额外的过渡点，随着单尺度计算中过渡点数量的增加，计算时间增加。粗细结合方法比单尺度方法更有效，因为它使用LOD1建筑模型来获得相应的室内矩阵。此外，粗细结合和单尺度方法之间的计算比率约为1:4（48.18:204.30），意味着粗细结合方法只需要单尺度方法所需路径规划计算时间的25\%。
 
 \begin{figure}[htbp]
 	\centering
@@ -637,8 +656,10 @@ MGNM通过IFC到MGNM转换从IFC自动生成，并确定MGNM元素的数量。�
 
 \begin{table}[htbp]
 	\centering
-	\caption{代价函数权重敏感性结果}
-	\caption*{Table~\thetable~ Sensitivity Results of Cost Function Weights} 
+	\caption{
+    \zihao{5}\songti 代价函数权重敏感性结果\\
+	\zihao{5}\rmfamily Sensitivity Results of Cost Function Weights
+}  
 	\label{tab:weight_sensitivity}
 	\begin{tabular}{@{}ccccl@{}}
 		\toprule
@@ -656,8 +677,10 @@ MGNM通过IFC到MGNM转换从IFC自动生成，并确定MGNM元素的数量。�
 
 \begin{table}[htbp]
 	\centering
-	\caption{模块消融实验量化结果}
-	\caption*{Table~\thetable~ Quantitative Results of Module Ablation Experiment} 
+	\caption{
+    \zihao{5}\songti 模块消融实验量化结果\\
+	\zihao{5}\rmfamily Quantitative Results of Module Ablation Experiment
+}  
 	\label{tab:ablation}
 	\begin{tabular}{@{}lcccc@{}}\toprule
 		配置 & $L^{\mathrm{in}}$/m & $R^{\mathrm{sum}}$ & 平均拥挤度/(人·m$^{-2}$) & 计算时间/s \\
@@ -731,6 +754,7 @@ MGNM通过IFC到MGNM转换从IFC自动生成，并确定MGNM元素的数量。�
 （3）设计并实现了覆盖数据预处理、网络生成、路径规划与结果分析的完整软件体系结构，形成了面向工程应用的CIM–MGNM一体化工作流。系统支持单建筑与建筑群疏散、特殊人群差异化路径推荐以及基于物联网感知数据的实时路径调整等多种运行模式，将城市信息模型、疏散网络模型与灾害风险场集成到统一的技术平台之中。
 
 （4）本章提出的室内外一体化风险感知疏散方法，为后续章节提供了统一的数据与模型基础。一方面，第五章在同一BIM与CIM数据体系上，将洪水水深和流速进一步映射到构件层面，用于评估建筑构件损伤及经济损失；另一方面，第六章在本章路径规划引擎和接口规范的基础上，集成多源感知、情景推演和辅助决策模块，构建滨海城市防灾减灾与应急协同系统，使从模型方法到系统实现的技术路线得以贯通。
+
 
 
 
