@@ -132,7 +132,7 @@ pdfstartview=FitH]{hyperref}
 \ctexset{chapter={
 		name={,},	%将章序号去掉“第××章”
 		number = \arabic{chapter},	%将章序号改为阿拉伯数字
-		aftername={\hskip 2em}, % 序号与题名之间空两格
+		aftername={\hskip 1em}, % 序号与题名之间空一格
 		fixskip = true, % fixskip可以去除多余的间距，否则上面有空隙--gzzang_210411
 		nameformat={\zihao{3}\mdseries\heiti}, % 默认是粗体，\mdseries调整为正常--gzzang_210411
 		titleformat={\zihao{3}\mdseries\heiti},
@@ -143,7 +143,7 @@ pdfstartview=FitH]{hyperref}
 
 \ctexset{section={
 		format={\zihao{-3}\heiti},
-		aftername={\hskip 2em},
+		aftername={\hskip 1em},
 		beforeskip={24pt},
 		afterskip={18pt},
 	}
@@ -151,7 +151,7 @@ pdfstartview=FitH]{hyperref}
 % Title Settings at the subection Level
 \ctexset{subsection={
 		format={\zihao{4}\heiti},
-		aftername={\hskip 2em},
+		aftername={\hskip 1em},
 		indent={0\ccwd},
 		beforeskip={24pt},
 		afterskip={18pt},
@@ -160,7 +160,7 @@ pdfstartview=FitH]{hyperref}
 % Title Settings at the subsubection Level
 \ctexset{subsubsection={
 		format={\zihao{-4}\heiti},
-		aftername={\hskip 2em},
+		aftername={\hskip 1em},
 		indent={0\ccwd},
 		beforeskip={12pt},
 		afterskip={9pt},
